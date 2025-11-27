@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>برنامج حصر العهد – MIFT USER PROFILE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-area">
+                <img src="./logo.png" class="app-logo" alt="شعار وزارة الاستثمار والتجارة الخارجية" />
+                <div class="header-text">
+                    <div class="ministry-title">وزارة الاستثمار والتجارة الخارجية</div>
+                    <div class="system-title">برنامج حصر العهد – MIFT USER PROFILE</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- Auth Section -->
+            <section id="authSection" class="card auth-card">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="loginTab">تسجيل الدخول</button>
+                    <button class="tab-button" data-tab="registerTab">إنشاء حساب جديد</button>
+                </div>
+
+                <div id="loginTab" class="tab-content active">
+                    <form id="loginForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="loginEmail">البريد الإلكتروني</label>
+                            <input id="loginEmail" type="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">كلمة المرور</label>
+                            <input id="loginPassword" type="password" required />
+                        </div>
+                        <button type="submit" class="btn primary full">دخول</button>
+                    </form>
+                </div>
+
+                <div id="registerTab" class="tab-content">
+                    <form id="registerForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="registerName">اسم المستخدم</label>
+                            <input id="registerName" type="text" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">البريد الإلكتروني</label>
+                            <input id="registerEmail" type="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">كلمة المرور</label>
+                            <input id="registerPassword" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="registerRole">نوع الحساب</label>
+                            <select id="registerRole" required>
+                                <option value="">اختر نوع الحساب</option>
+                                <option value="admin">مدير النظام</option>
+                                <option value="store">مسؤول المخازن</option>
+                                <option value="user">مستخدم</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="systemMasterPassword">كلمة السر الخاصة بمسؤول النظام</label>
+                            <input id="systemMasterPassword" type="password" placeholder="MIFTsuper@dmin123" required />
+                            <small class="hint">لا يمكن إنشاء أى حساب جديد إلا بعد إدخال كلمة السر هذه بشكل صحيح</small>
+                        </div>
+                        <button type="submit" class="btn success full">تسجيل حساب</button>
+                    </form>
+                </div>
+
+                <div id="authMessage" class="message"></div>
+            </section>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="dashboard hidden">
+                <aside class="sidebar">
+                    <div class="user-info">
+                        <div id="currentUserName" class="user-name"></div>
+                        <div id="currentUserRole" class="user-role"></div>
+                    </div>
+                    <nav class="nav-menu">
+                        <button class="nav-item" data-screen="employeesScreen">بيانات العاملين</button>
+                        <button class="nav-item" data-screen="assetsScreen">بيانات العهد الشخصية</button>
+                        <button class="nav-item" data-screen="searchScreen">شاشة البحث</button>
+                        <button class="nav-item" data-screen="storesScreen">شاشة المخازن</button>
+                        <button class="nav-item danger" id="logoutButton">تسجيل الخروج</button>
+                    </nav>
+                </aside>
+
+                <section class="content">
+                    <!-- Screens -->
+                    <div id="employeesScreen" class="screen hidden">
+                        <h2>بيانات العاملين</h2>
+                        <form id="employeeForm" class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الموظف</label>
+                                <input id="empName" required />
+                            </div>
+                            <div class="form-group">
+                                <label>الرقم القومي</label>
+                                <input id="empNationalId" required />
+                            </div>
+                            <div class="form-group">
+                                <label>الوظيفة</label>
+                                <input id="empJob" />
+                            </div>
+                            <div class="form-group">
+                                <label>القطاع</label>
+                                <input id="empSector" />
+                            </div>
+                            <div class="form-group">
+                                <label>الإدارة المركزية</label>
+                                <input id="empCentralAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label>الإدارة العامة</label>
+                                <input id="empGeneralAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label>الإدارة الفرعية</label>
+                                <input id="empSubAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label>الهاتف المحمول</label>
+                                <input id="empPhone" />
+                            </div>
+                            <div class="form-group">
+                                <label>المبنى / الغرفة</label>
+                                <input id="empLocation" />
+                            </div>
+                            <button class="btn primary">حفظ بيانات الموظف</button>
+                        </form>
+
+                        <div class="table-container">
+                            <input id="employeeSearch" class="search-input" placeholder="بحث بالاسم أو الرقم القومي" />
+                            <table id="employeesTable">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>الرقم القومي</th>
+                                        <th>الوظيفة</th>
+                                        <th>القطاع</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="assetsScreen" class="screen hidden">
+                        <h2>بيانات العهد الشخصية</h2>
+                        <!-- Content skipped for brevity (you have full version already) -->
+                    </div>
+
+                    <div id="searchScreen" class="screen hidden">
+                        <h2>شاشة البحث</h2>
+                        <!-- Content skipped for brevity -->
+                    </div>
+
+                    <div id="storesScreen" class="screen hidden">
+                        <h2>شاشة المخازن</h2>
+                        <!-- Content skipped for brevity -->
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
