@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>برنامج حصر العهد – MIFT USER PROFILE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- خط كايرو + تَجوال لستايل عصري أكتر -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Tajawal:wght@400;500;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- ملف التنسيق -->
+    <link href="./style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- رأس الصفحة -->
+        <header class="app-header">
+            <div class="logo-area">
+                <img src="./logo.png" class="app-logo" alt="شعار الوزارة" />
+                <div class="header-text">
+                    <div class="ministry-title">وزارة الاستثمار والتجارة الخارجية</div>
+                    <div class="system-title">برنامج حصر العهد – MIFT USER PROFILE</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="app-main">
+
+            <!-- شاشة الدخول / إنشاء حساب -->
+            <section id="authSection" class="auth-wrapper">
+                <section class="card auth-card">
+
+                    <!-- التبويبات -->
+                    <div class="tabs">
+                        <button id="btnLoginTab" class="tab-button active">تسجيل الدخول</button>
+                        <button id="btnRegisterTab" class="tab-button">إنشاء حساب جديد</button>
+                    </div>
+
+                    <!-- تبويب الدخول -->
+                    <div id="loginFormBox" class="tab-content active">
+                        <form class="form-grid" onsubmit="return false;">
+                            <div class="form-group full-width">
+                                <label>البريد الإلكتروني</label>
+                                <input id="loginEmail" type="email" />
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>كلمة المرور</label>
+                                <input id="loginPassword" type="password" />
+                            </div>
+
+                            <button type="button" id="loginButton" class="btn primary full">دخول</button>
+                        </form>
+                    </div>
+
+                    <!-- تبويب إنشاء حساب -->
+                    <div id="registerFormBox" class="tab-content">
+                        <form class="form-grid" onsubmit="return false;">
+                            <div class="form-group">
+                                <label>اسم المستخدم</label>
+                                <input id="registerName" type="text" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>البريد الإلكتروني</label>
+                                <input id="registerEmail" type="email" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>كلمة المرور</label>
+                                <input id="registerPassword" type="password" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>نوع الحساب</label>
+                                <select id="registerRole">
+                                    <option value="">اختر</option>
+                                    <option value="admin">مدير النظام</option>
+                                    <option value="store">مسؤول المخازن</option>
+                                    <option value="user">مستخدم</option>
+                                </select>
+                            </div>
+
+                            <button type="button" id="registerButton" class="btn success full">إنشاء حساب جديد</button>
+                        </form>
+
+                        <small class="hint full-width">
+                            سيتم مراجعة الحساب بواسطة مدير النظام قبل التفعيل.
+                        </small>
+                    </div>
+
+                    <div id="authMessage" class="message"></div>
+                </section>
+            </section>
+
+            <!-- لوحة التحكم -->
+            <section id="dashboardSection" class="dashboard hidden">
+
+                <!-- القائمة الجانبية -->
+                <aside class="sidebar">
+                    <div class="user-info">
+                        <div id="currentUserName" class="user-name"></div>
+                        <div id="currentUserRole" class="user-role"></div>
+                    </div>
+
+                    <nav class="nav-menu">
+                        <button class="nav-item" data-screen="usersAdminScreen">إدارة المستخدمين</button>
+                        <button class="nav-item" data-screen="employeesScreen">بيانات العاملين</button>
+                        <button class="nav-item" data-screen="assetsScreen">العهد الشخصية</button>
+                        <button class="nav-item" data-screen="searchScreen">شاشة البحث</button>
+                        <button class="nav-item" data-screen="storesScreen">شاشة المخازن</button>
+                        <button class="nav-item danger" id="logoutButton">تسجيل خروج</button>
+                    </nav>
+                </aside>
+
+                <!-- منطقة الشاشات -->
+                <section class="content">
+
+                    <!-- إدارة المستخدمين -->
+                    <div id="usersAdminScreen" class="screen hidden">
+                        <h2>إدارة حسابات المستخدمين</h2>
+                        <p class="hint">يمكنك اعتماد أو إيقاف أو تغيير دور أي حساب.</p>
+
+                        <div class="table-container">
+                            <table id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>البريد</th>
+                                        <th>الدور</th>
+                                        <th>الحالة</th>
+                                        <th>تعديل الدور</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- شاشة العاملين -->
+                    <div id="employeesScreen" class="screen hidden">
+                        <h2>بيانات العاملين</h2>
+
+                        <form id="employeeForm" class="form-grid">
+                            <div class="form-group">
+                                <label for="empName">اسم الموظف</label>
+                                <input id="empName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empNationalId">الرقم القومي</label>
+                                <input id="empNationalId" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empJob">الوظيفة</label>
+                                <input id="empJob" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empSector">القطاع</label>
+                                <input id="empSector" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empCentralAdmin">الإدارة المركزية</label>
+                                <input id="empCentralAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empGeneralAdmin">الإدارة العامة</label>
+                                <input id="empGeneralAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empSubAdmin">الإدارة الفرعية</label>
+                                <input id="empSubAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label for="empPhone">الهاتف المحمول</label>
+                                <input id="empPhone" />
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="empLocation">المبنى / الغرفة</label>
+                                <input id="empLocation" />
+                            </div>
+                            <button type="submit" class="btn primary full">حفظ / تعديل بيانات الموظف</button>
+                        </form>
+
+                        <div class="table-container">
+                            <h3>قائمة العاملين</h3>
+                            <input id="employeeSearch" class="search-input" placeholder="بحث بالاسم أو الرقم القومي" />
+                            <table id="employeesTable">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>الرقم القومي</th>
+                                        <th>الوظيفة</th>
+                                        <th>القطاع</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- شاشة العهد الشخصية -->
+                    <div id="assetsScreen" class="screen hidden">
+                        <h2>العهد الشخصية</h2>
+
+                        <!-- اختيار الموظف -->
+                        <div class="card inner-card">
+                            <h3>اختيار الموظف</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>بحث بالرقم القومي</label>
+                                    <input id="assetSearchNationalId" />
+                                </div>
+                                <div class="form-group">
+                                    <label>بحث بالاسم</label>
+                                    <input id="assetSearchName" />
+                                </div>
+                                <button id="assetSearchButton" class="btn primary">بحث عن موظف</button>
+
+                                <div class="form-group full-width">
+                                    <label>أو اختر من القائمة</label>
+                                    <select id="employeeSelect">
+                                        <option value="">اختر موظفًا</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- معلومات الموظف -->
+                            <div id="selectedEmployeeInfo" class="message info hidden"></div>
+                        </div>
+
+                        <!-- نماذج العهد -->
+                        <div id="assetsForms" class="assets-forms hidden">
+
+                            <!-- زر عام لحفظ العهدة الحالية (النموذج المفتوح) -->
+                            <button id="saveCurrentAssetButton" class="btn primary full" style="margin-bottom: 0.75rem;">
+                                حفظ العهدة الحالية (حسب النموذج المفتوح)
+                            </button>
+
+                            <!-- جهاز مكتبي -->
+                            <details class="asset-group" open>
+                                <summary>جهاز حاسب مكتبي</summary>
+                                <form class="asset-form" data-asset-type="desktop">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>نوع / موديل الجهاز</label>
+                                            <input name="model" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الجهاز</label>
+                                            <input name="serialDevice" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الشاشة</label>
+                                            <input name="serialScreen1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الشاشة (2)</label>
+                                            <input name="serialScreen2" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>نظام التشغيل / البرامج</label>
+                                            <input name="os" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>ملاحظات</label>
+                                            <input name="notes" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">إضافة جهاز مكتبي</button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- جهاز العاصمة (G-DELL) -->
+                            <details class="asset-group">
+                                <summary>جهاز العاصمة (G-DELL)</summary>
+                                <form class="asset-form" data-asset-type="g-dell">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الجهاز</label>
+                                            <input name="serialDevice" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الشاشة</label>
+                                            <input name="serialScreen" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            أضف جهاز العاصمة (G-DELL)
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- جهاز العاصمة (P-HP) -->
+                            <details class="asset-group">
+                                <summary>جهاز العاصمة (P-HP)</summary>
+                                <form class="asset-form" data-asset-type="p-hp">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الجهاز</label>
+                                            <input name="serialDevice" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الشاشة</label>
+                                            <input name="serialScreen" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            أضف جهاز العاصمة (P-HP)
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- لابتوب -->
+                            <details class="asset-group">
+                                <summary>جهاز حاسب محمول (Laptop)</summary>
+                                <form class="asset-form" data-asset-type="laptop">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>نوع / موديل الجهاز</label>
+                                            <input name="model" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل الجهاز</label>
+                                            <input name="serialDevice" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>نظام التشغيل / البرامج</label>
+                                            <input name="os" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>ملاحظات</label>
+                                            <input name="notes" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            إضافة جهاز محمول
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- ماكينة تصوير -->
+                            <details class="asset-group">
+                                <summary>ماكينة تصوير</summary>
+                                <form class="asset-form" data-asset-type="copier">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>نوع / موديل الماكينة</label>
+                                            <input name="model" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل</label>
+                                            <input name="serial" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>ملاحظات</label>
+                                            <input name="notes" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            إضافة ماكينة تصوير
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- طابعة -->
+                            <details class="asset-group">
+                                <summary>طابعة</summary>
+                                <form class="asset-form" data-asset-type="printer">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>نوع / موديل الطابعة</label>
+                                            <input name="model" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>رقم مسلسل</label>
+                                            <input name="serial" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>ملاحظات</label>
+                                            <input name="notes" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            إضافة طابعة
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- عُهد أخرى -->
+                            <details class="asset-group">
+                                <summary>عُهد أخرى</summary>
+                                <form class="asset-form" data-asset-type="other">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>نوع العهدة</label>
+                                            <input name="category" placeholder="Flash / HDD / WIFI / Mouse / KVM" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>الوصف</label>
+                                            <input name="description" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>ملاحظات</label>
+                                            <input name="notes" />
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>صورة استمارة العهدة (PDF)</label>
+                                            <input type="file" name="pdf" accept="application/pdf" />
+                                        </div>
+
+                                        <button type="submit" class="btn success full">
+                                            إضافة عهدة أخرى
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+
+                            <!-- رسائل العهد -->
+                            <div id="assetsMessage" class="message"></div>
+
+                            <!-- عرض العهد المسجلة -->
+                            <div class="table-container">
+                                <h3>العهد المسجلة لهذا الموظف</h3>
+                                <div id="employeeAssetsList"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- شاشة البحث -->
+                    <div id="searchScreen" class="screen hidden">
+                        <h2>شاشة البحث</h2>
+
+                        <div class="card inner-card">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>البحث بالرقم القومي</label>
+                                    <input id="searchNationalId" />
+                                </div>
+                                <div class="form-group">
+                                    <label>البحث بالاسم</label>
+                                    <input id="searchName" />
+                                </div>
+                                <button id="searchEmployeeButton" class="btn primary">بحث</button>
+                            </div>
+                        </div>
+
+                        <div id="searchResult" class="card inner-card hidden">
+                            <h3>بيانات الموظف</h3>
+                            <div id="searchEmployeeInfo"></div>
+
+                            <h3>العهد المسجلة</h3>
+                            <div id="searchAssetsInfo"></div>
+                        </div>
+                    </div>
+
+                    <!-- شاشة المخازن -->
+                    <div id="storesScreen" class="screen hidden">
+                        <h2>شاشة المخازن</h2>
+
+                        <form id="storeForm" class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الجهة</label>
+                                <input id="storeDeptName" />
+                            </div>
+                            <div class="form-group">
+                                <label>المخزن</label>
+                                <input id="storeName" />
+                            </div>
+                            <div class="form-group">
+                                <label>نوع العهدة</label>
+                                <select id="storeAssetType">
+                                    <option value="">اختر</option>
+                                    <option value="مستديم">مستديم</option>
+                                    <option value="مستهلك">مستهلك</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الإذن</label>
+                                <input id="storePermissionNo" />
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الطلب</label>
+                                <input id="storeRequestDate" type="date" />
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الطلب</label>
+                                <select id="storeRequestType">
+                                    <option value="">اختر</option>
+                                    <option value="استلام أول">استلام أول</option>
+                                    <option value="نقل عهدة">نقل عهدة</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>اسم طالب العهدة</label>
+                                <input id="storeRequesterName" />
+                            </div>
+                            <div class="form-group">
+                                <label>الرقم القومي لطالب العهدة</label>
+                                <input id="storeRequesterNid" />
+                            </div>
+                            <div class="form-group">
+                                <label>اسم مستلم العهدة</label>
+                                <input id="storeReceiverName" />
+                            </div>
+                            <div class="form-group">
+                                <label>الرقم القومي لمستلم العهدة</label>
+                                <input id="storeReceiverNid" />
+                            </div>
+                            <div class="form-group full-width">
+                                <label>وصف العهدة</label>
+                                <textarea id="storeDescription"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>صورة استمارة العهدة (PDF)</label>
+                                <input id="storePdf" type="file" accept="application/pdf" />
+                            </div>
+
+                            <button type="submit" class="btn primary full">
+                                حفظ بيانات العهد المخزنية
+                            </button>
+                        </form>
+
+                        <div class="table-container">
+                            <h3>العهد المخزنية المسجلة</h3>
+                            <table id="storesTable">
+                                <thead>
+                                    <tr>
+                                        <th>الجهة</th>
+                                        <th>المخزن</th>
+                                        <th>نوع العهدة</th>
+                                        <th>رقم الإذن</th>
+                                        <th>تاريخ الطلب</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </section>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+    <!-- ملف المنطق -->
+    <script src="./main.js"></script>
+
+</body>
+
+</html>
